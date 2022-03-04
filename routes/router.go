@@ -10,7 +10,7 @@ func Router() *minima.Router {
 	rt := minima.NewRouter()
 	/* Define the routes */
 	rt.Get("/test/:id", TestRoute())
-	rt.Get("/sharex", images.UploadShareX())
+	rt.Post("/sharex", images.UploadShareX())
 	/* Return the router */
 	return rt
 }

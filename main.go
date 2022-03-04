@@ -15,7 +15,7 @@ func main() {
 	app.Use(crs.NewCors(cors.Options{
 		AllowedOrigins:   []string{"https://localhost:3000"},
 		AllowCredentials: true,
-		Debug:            true,
+		Debug:            false,
 	}))
 	app.Get("/", func(res *minima.Response, req *minima.Request) {
 		res.OK().Send("Hello World")
