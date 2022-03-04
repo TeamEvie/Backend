@@ -4,7 +4,8 @@ import (
 	"github.com/gominima/minima"
 )
 
-func UploadShareX(res *minima.Response, req *minima.Request) {
-	res.Status(200)
-	res.Send("Hello!")
+func UploadShareX() minima.Handler {
+	return func(res *minima.Response, req *minima.Request) {
+		res.Send("Hello")
+	}
 }

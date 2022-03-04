@@ -10,9 +10,6 @@ import (
 func main() {
 	app := minima.New()
 	crs := cors.New()
-	app.Get("/", func(res *minima.Response, req *minima.Request) {
-		res.OK().Send("Hello World")
-	})
 	app.UseRouter(routes.Router())
 	app.Use(middlewares.Logger)
 	app.Use(crs.NewCors(cors.Options{
@@ -20,5 +17,8 @@ func main() {
 		AllowCredentials: true,
 		Debug:            true,
 	}))
+	app.Get("/", func(res *minima.Response, req *minima.Request) {
+		res.OK().Send("Hello World")
+	})
 	app.Listen(":3000")
 }
