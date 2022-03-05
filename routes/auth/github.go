@@ -1,9 +1,7 @@
 package auth
 
 import (
-	"net/http"
 	"os"
-
 	"github.com/TeamEvie/Backend/utils"
 	"github.com/fatih/color"
 	"github.com/gominima/minima"
@@ -16,9 +14,9 @@ func GitHubAuth() minima.Handler {
 		clientID := os.Getenv("GITHUB_CLIENT_ID")
 		scopes := "read:org"
 
-		if req.Raw().URL.Query().Get("code") == "" {
+		if req.GetQueryParam("code") == "" {
 			color.Red("Redirecting to %s", base+"?client_id="+clientID+"&scope="+scopes)
-			http.Redirect(res.Raw(), req.Raw(), base+"?client_id="+clientID+"&scope="+scopes, http.StatusTemporaryRedirect)
+			res.Redirect(base+"?client_id="+clientID+"&scope="+scopes)
 			return
 		}
 
