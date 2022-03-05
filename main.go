@@ -1,11 +1,10 @@
 package main
 
 import (
-	"github.com/TeamEvie/Backend/middlewares"
+	"github.com/gominima/middlewares"
 	"github.com/TeamEvie/Backend/routes"
 	"github.com/gominima/cors"
 	"github.com/gominima/minima"
-
 	_ "github.com/joho/godotenv/autoload"
 )
 
@@ -13,7 +12,7 @@ func main() {
 	app := minima.New()
 	crs := cors.New()
 	app.UseRouter(routes.Router())
-	app.Use(middlewares.Logger)
+	app.UseRaw(middleware.Logger)
 	app.Use(crs.NewCors(cors.Options{
 		AllowedOrigins:   []string{"https://localhost:3000"},
 		AllowCredentials: true,

@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/fatih/color v1.13.0
 	github.com/gominima/cors v1.0.1
-	github.com/gominima/minima v1.0.1
+	github.com/gominima/minima v1.1.0
 	github.com/iancoleman/strcase v0.0.0-20190422225806-e506e3ef7365
 	github.com/joho/godotenv v1.4.0
 	github.com/monaco-io/request v1.0.15
@@ -15,6 +15,7 @@ require (
 )
 
 require (
+	github.com/gominima/middlewares v0.0.0-20220206154521-7f7036903438
 	github.com/graphql-go/graphql v0.8.0
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
