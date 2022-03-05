@@ -6,45 +6,48 @@ import (
 	"github.com/TeamEvie/Backend/prisma/db"
 	"github.com/TeamEvie/Backend/utils"
 	"github.com/fatih/color"
-	"github.com/gominima/minima"
+	"github.com/gofiber/fiber/v2"
 )
 
-func GenSXCU() minima.Handler {
-	return func(res *minima.Response, req *minima.Request) {
+func GenSXCU(c *fiber.Ctx) error {
 
-		secret := req.GetHeader("auth")
-		client := db.NewClient()
+	secret := c.GetReqHeaders()["auth"]
+	client := db.NewClient()
 
-		if err := client.Prisma.Connect(); err != nil {
-			res.Status(500).Send(err.Error())
-			color.Red("[ERROR1] %s", err.Error())
-			return
-		}
+	if err := client.Prisma.Connect(); err != nil {
+		color.Red("[ERROR1] %s", err.Error())
+		return c.JSON(fiber.Map{
+			"status": "error",
+		})
+	}
 
-		user := utils.GetEvieUserFromGHToken(secret)
+	user := utils.GetEvieUserFromGHToken(secret)
 
-		if user == nil {
-			res.Status(401).Send("Unauthorized")
-			color.Red("[ERROR2] Unauthorized")
-			return
-		}
+	if user == nil {
+		color.Red("[ERROR2] Unauthorized")
+		return c.JSON(fiber.Map{
+			"status": "Unauthorized",
+		})
+	}
 
-		if user == nil {
-			res.Status(401).Send("Unauthorized")
-			color.Red("[ERROR3] Unauthorized")
-			return
-		}
+	if user == nil {
+		color.Red("[ERROR3] Unauthorized")
+		return c.JSON(fiber.Map{
+			"status": "Unauthorized",
+		})
+	}
 
-		hostname := os.Getenv("BACKEND_URI")
-		uploadKey, ok := user.UploadKey()
+	hostname := os.Getenv("BACKEND_URI")
+	uploadKey, ok := user.UploadKey()
 
-		if !ok {
-			res.Status(500).Send("Upload key not found")
-			color.Red("[ERROR4] Upload key not found")
-			return
-		}
+	if !ok {
+		color.Red("[ERROR4] Upload key not found")
+		return c.JSON(fiber.Map{
+			"status": "Upload key not found",
+		})
+	}
 
-		sxcu := `{
+	sxcu := `{
 			"Version": "13.7.0",
 			"Name": "Local",
 			"DestinationType": "ImageUploader, FileUploader",
@@ -57,7 +60,6 @@ func GenSXCU() minima.Handler {
 			"URL": "$json:url$"
 		  }`
 
-		res.Status(200).Send(sxcu)
-		color.Green("[SUCCESS] Generated SXCU")
-	}
+	return c.SendFile(sxcu)
+
 }

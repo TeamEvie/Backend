@@ -3,17 +3,14 @@ package routes
 import (
 	"github.com/TeamEvie/Backend/routes/auth"
 	"github.com/TeamEvie/Backend/routes/images"
-	"github.com/gominima/minima"
+	"github.com/gofiber/fiber/v2"
 )
 
-func Router() *minima.Router {
-	/* Create a new router */
-	rt := minima.NewRouter()
+func Router(app *fiber.App) {
+	/* Define v1 Group */
+	v1 := app.Group("/v1")
 	/* Define the routes */
-	rt.Get("/test/:id", TestRoute())
-	rt.Post("/sharex", images.UploadShareX())
-	rt.Get("/sharex/sxcu", images.GenSXCU())
-	rt.Get("/auth/github", auth.GitHubAuth())
-	/* Return the router */
-	return rt
+	v1.Post("/sharex", images.UploadShareX)
+	v1.Get("/sharex/sxcu", images.GenSXCU)
+	v1.Get("/auth/github", auth.GitHubAuth)
 }
