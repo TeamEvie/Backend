@@ -5,6 +5,7 @@ WORKDIR /app
 COPY go.mod .
 COPY go.sum .
 RUN go mod download
+RUN go run github.com/prisma/prisma-client-go generate
 RUN go build -o main .
 RUN adduser -S -D -H -h /app appuser
 USER appuser

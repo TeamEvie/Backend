@@ -5,6 +5,8 @@ import (
 	"github.com/TeamEvie/Backend/routes"
 	"github.com/gominima/cors"
 	"github.com/gominima/minima"
+
+	_ "github.com/joho/godotenv/autoload"
 )
 
 func main() {
