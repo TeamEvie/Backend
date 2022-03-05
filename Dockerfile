@@ -1,13 +1,11 @@
 FROM golang:alpine
-RUN mkdir /app
-ADD . /app/
-WORKDIR /app
-COPY go.mod .
-COPY go.sum .
+WORKDIR /usr/src/app
+COPY go.mod ./
+COPY go.sum ./
 RUN go mod download
+COPY prisma ./prisma
 RUN go run github.com/prisma/prisma-client-go generate
-RUN go build -o main .
-RUN adduser -S -D -H -h /app appuser
-USER appuser
-EXPOSE 3000
+COPY . .
+RUN touch .env
+RUN go build -o main
 CMD ["./main"]
