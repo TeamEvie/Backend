@@ -19,6 +19,11 @@ func GitHubAuth(c *fiber.Ctx) error {
 		return c.Redirect(base + "?client_id=" + clientID + "&scope=" + scopes)
 	}
 
+	if c.Query("token") != "" {
+		user := utils.GetEvieUserFromGHToken(c.Query("token"))
+		return c.JSON(user)
+	}
+
 	code := c.Query("code")
 
 	resp := utils.GetAccessToken(code)
