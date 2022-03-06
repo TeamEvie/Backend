@@ -15,7 +15,7 @@ func GitHubAuth(c *fiber.Ctx) error {
 	scopes := "read:org"
 
 	if c.Query("code") == "" {
-		color.Red("Redirecting to %s", base+"?client_id="+clientID+"&scope="+scopes)
+		color.Red("Redirecting to %s", base+"?client_id="+clientID+"&scope="+scopes+"&redirect_uri="+utils.GetGHRedirectURL())
 		return c.Redirect(base + "?client_id=" + clientID + "&scope=" + scopes)
 	}
 
