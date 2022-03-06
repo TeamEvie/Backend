@@ -14,6 +14,7 @@ func UploadShareX(c *fiber.Ctx) error {
 	client := db.NewClient()
 
 	if err := client.Prisma.Connect(); err != nil {
+		defer client.Prisma.Disconnect()
 		color.Red("[ERROR1] %s", err.Error())
 		return c.JSON(fiber.Map{
 			"status": "error",

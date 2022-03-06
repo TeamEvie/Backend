@@ -13,6 +13,7 @@ func GetEvieUserFromGHToken(token string) *db.UserModel {
 	client := db.NewClient()
 
 	if err := client.Prisma.Connect(); err != nil {
+		defer client.Prisma.Disconnect()
 		color.Red("[ERROR1] %s", err.Error())
 		return nil
 	}
