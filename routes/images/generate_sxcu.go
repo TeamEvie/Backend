@@ -52,7 +52,7 @@ func GenSXCU(c *fiber.Ctx) error {
 			"Name": "Local",
 			"DestinationType": "ImageUploader, FileUploader",
 			"RequestMethod": "POST",
-			"RequestURL": "` + hostname + `/sharex",
+			"RequestURL": "` + hostname + `/v1/sharex",
 			"Headers": {
 			  "auth": "` + uploadKey + `"
 			},
