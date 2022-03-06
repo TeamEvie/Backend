@@ -17,8 +17,11 @@ func GitHubAuth(c *fiber.Ctx) error {
 
 	resp := utils.GetAccessToken(code)
 
-	user := utils.GetEvieUserFromGHToken(resp.AccessToken)
+	// user := utils.GetEvieUserFromGHToken(resp.AccessToken)
 
-	return c.JSON(user)
+	return c.JSON(fiber.Map{
+		"status": "success",
+		"token":  resp.AccessToken,
+	})
 
 }
