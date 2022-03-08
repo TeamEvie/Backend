@@ -5,8 +5,10 @@ github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/fatih/color v1.13.0 h1:8LOYc1KYPPmyKMuN8QV2DNRWNbLo6LZ0iLs8+mlH53w=
 github.com/fatih/color v1.13.0/go.mod h1:kLAiJbzzSOZDVNGyDpeOxJ47H46qBXwg5ILebYFFOfk=
-github.com/gofiber/fiber/v2 v2.28.0 h1:EgoqkUhBad4MPN5mBEBRO9avRqjdNkWq0sApNXdatr8=
-github.com/gofiber/fiber/v2 v2.28.0/go.mod h1:0bPXdTu+jRqINrEq1T6mHeVBnE0lQd67PGu35jD3hLk=
+github.com/gominima/middlewares v0.0.0-20220206154521-7f7036903438 h1:bEixmXhVqWZqCyHo5FxZGdt2aWpvTaoRORywbOSRlxI=
+github.com/gominima/middlewares v0.0.0-20220206154521-7f7036903438/go.mod h1:Xu8p7FEwkNqD3rgBMUgcTkH9uEzDrCPOBqLrGqs9MQI=
+github.com/gominima/minima v1.1.3 h1:ozzi1ai5/wphbf4VOH8dUMUcJAe65pvTs+9gp4E13kk=
+github.com/gominima/minima v1.1.3/go.mod h1:Nfnw8mt0k0LLBDU5KSIX155a8hw01qqMZh7RhQ3VP44=
 github.com/iancoleman/strcase v0.0.0-20190422225806-e506e3ef7365 h1:ECW73yc9MY7935nNYXUkK7Dz17YuSUI9yqRqYS8aBww=
 github.com/iancoleman/strcase v0.0.0-20190422225806-e506e3ef7365/go.mod h1:SK73tn/9oHe+/Y0h39VT4UCxmurVJkR5NA7kMEAOgSE=
 github.com/joho/godotenv v1.4.0 h1:3l4+N6zfMWnkbPEXKng2o2/MR5mSwTrBih4ZEkkz1lg=

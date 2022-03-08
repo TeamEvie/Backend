@@ -6,49 +6,45 @@ import (
 	"github.com/TeamEvie/Backend/prisma/db"
 	"github.com/TeamEvie/Backend/utils"
 	"github.com/fatih/color"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gominima/minima"
 )
 
-func GenSXCU(c *fiber.Ctx) error {
+func GenSXCU() minima.Handler {
+	return func(res *minima.Response, req *minima.Request) {
 
-	secret := c.GetReqHeaders()["auth"]
-	client := db.NewClient()
+		secret := req.GetHeader("auth")
+		client := db.NewClient()
 
-	if err := client.Prisma.Connect(); err != nil {
-		defer client.Prisma.Disconnect()
-		color.Red("[ERROR1] %s", err.Error())
-		return c.JSON(fiber.Map{
-			"status": "error",
-		})
-	}
+		if err := client.Prisma.Connect(); err != nil {
+			res.InternalServerError().Send(err.Error())
+			color.Red("[ERROR1] %s", err.Error())
+			return
+		}
 
-	user := utils.GetEvieUserFromGHToken(secret)
+		user := utils.GetEvieUserFromGHToken(secret)
 
-	if user == nil {
-		color.Red("[ERROR2] Unauthorized")
-		return c.JSON(fiber.Map{
-			"status": "Unauthorized",
-		})
-	}
+		if user == nil {
+			res.Unauthorized().Send("Unauthorized")
+			color.Red("[ERROR2] Unauthorized")
+			return
+		}
 
-	if user == nil {
-		color.Red("[ERROR3] Unauthorized")
-		return c.JSON(fiber.Map{
-			"status": "Unauthorized",
-		})
-	}
+		if user == nil {
+			res.Unauthorized().Send("Unauthorized")
+			color.Red("[ERROR3] Unauthorized")
+			return
+		}
 
-	hostname := os.Getenv("BACKEND_URI")
-	uploadKey, ok := user.UploadKey()
+		hostname := os.Getenv("BACKEND_URI")
+		uploadKey, ok := user.UploadKey()
 
-	if !ok {
-		color.Red("[ERROR4] Upload key not found")
-		return c.JSON(fiber.Map{
-			"status": "Upload key not found",
-		})
-	}
+		if !ok {
+			res.InternalServerError().Send("Upload key not found")
+			color.Red("[ERROR4] Upload key not found")
+			return
+		}
 
-	sxcu := `{
+		sxcu := `{
 			"Version": "13.7.0",
 			"Name": "Local",
 			"DestinationType": "ImageUploader, FileUploader",
@@ -61,6 +57,7 @@ func GenSXCU(c *fiber.Ctx) error {
 			"URL": "$json:url$"
 		  }`
 
-	return c.SendFile(sxcu)
-
+		res.OK().Send(sxcu)
+		color.Green("[SUCCESS] Generated SXCU")
+	}
 }

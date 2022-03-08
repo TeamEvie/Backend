@@ -2,48 +2,41 @@ package images
 
 import (
 	"context"
-
 	"github.com/TeamEvie/Backend/prisma/db"
 	"github.com/fatih/color"
-	"github.com/gofiber/fiber/v2"
+	"github.com/gominima/minima"
 )
 
-func UploadShareX(c *fiber.Ctx) error {
+func UploadShareX() minima.Handler {
+	return func(res *minima.Response, req *minima.Request) {
+		secret := req.GetHeader("auth")
+		client := db.NewClient()
 
-	secret := c.GetReqHeaders()["auth"]
-	client := db.NewClient()
+		if err := client.Prisma.Connect(); err != nil {
+			defer client.Prisma.Disconnect()
+			color.Red("[ERROR1] %s", err.Error())
+			res.InternalServerError().Send(err.Error())
+			return
+		}
 
-	if err := client.Prisma.Connect(); err != nil {
-		defer client.Prisma.Disconnect()
-		color.Red("[ERROR1] %s", err.Error())
-		return c.JSON(fiber.Map{
-			"status": "error",
-		})
+		user, err := client.User.FindFirst(
+			db.User.UploadKey.Equals(secret),
+		).Exec(context.Background())
+
+		if err != nil {
+			color.Red("[ERROR2] %s", err.Error())
+			res.InternalServerError().Send(err.Error())
+			return
+		}
+
+		if user == nil {
+			color.Red("[ERROR3] Unauthorized")
+			res.Unauthorized().Send("Unauthorized")
+			return
+		}
+
+		color.Magenta("Secret: \"%s\"", secret)
+
+		res.JSON(map[string]string{"status": "success", "url": "evie.pw"})
 	}
-
-	user, err := client.User.FindFirst(
-		db.User.UploadKey.Equals(secret),
-	).Exec(context.Background())
-
-	if err != nil {
-		color.Red("[ERROR2] %s", err.Error())
-		return c.JSON(fiber.Map{
-			"status": "Unauthorized",
-		})
-	}
-
-	if user == nil {
-		color.Red("[ERROR3] Unauthorized")
-		return c.JSON(fiber.Map{
-			"status": "Unauthorized",
-		})
-	}
-
-	color.Magenta("Secret: \"%s\"", secret)
-
-	return c.JSON(fiber.Map{
-		"status": "success",
-		"url":    "evie.pw",
-	})
-
 }
