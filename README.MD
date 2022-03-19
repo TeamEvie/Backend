@@ -1,3 +1,8 @@
+# Archive Notice
+
+This repo's purpose was to make a backend for everything Evie related, but putting multiple projects into one API would be hard especially since we use different databases for projects.
+We will most likely repurpose this as a template for a Prisma and Minima API.
+
 # Evie Backend
 
 > Slowly but surely, all Evie Related APIs will be migrated to this project.
